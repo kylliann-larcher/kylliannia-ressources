@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KylliannIA · Ressources gratuites</title>
+<meta name="description" content="Les ressources gratuites des vidéos KylliannIA : tape le mot-clé vu dans la vidéo.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0E1A3A;--navy2:#16275A;--blue:#2F6FED;--orange:#FF8A3D;--ink:#1B2A4A;--pale:#E8F0FF;--muted:#8A97B8}
+*{box-sizing:border-box}body{margin:0;font-family:Poppins,system-ui,sans-serif;background:linear-gradient(180deg,var(--navy),var(--navy2));color:#fff;min-height:100vh}
+main{max-width:640px;margin:0 auto;padding:32px 20px 60px}
+header{display:flex;align-items:center;gap:14px;margin-bottom:26px}header img{width:56px;height:56px;border-radius:50%;border:3px solid var(--orange)}
+h1{font-size:26px;margin:0}h1 span{color:var(--orange)}.sub{color:var(--pale);margin:2px 0 0;font-weight:500;font-size:15px}
+label{display:block;font-weight:700;font-size:20px;margin:6px 0 10px}
+input[type=search],input[type=email],input[type=text]{width:100%;font:inherit;font-size:20px;padding:14px 18px;border-radius:14px;border:2px solid var(--blue);background:#fff;color:var(--ink);outline:none}
+input:focus{border-color:var(--orange)}
+.hint{color:var(--muted);font-size:14px;margin:8px 0 22px}
+.card{background:#fff;color:var(--ink);border-radius:18px;padding:18px 20px;margin-bottom:14px}
+.card .kw{display:inline-block;background:var(--orange);color:var(--ink);font-weight:700;font-size:13px;border-radius:20px;padding:3px 12px}
+.card h2{font-size:19px;margin:10px 0 6px}.card p{margin:0 0 12px;font-weight:500;font-size:15px;line-height:1.45}
+.btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:700;border-radius:12px;padding:11px 18px;font-size:16px}
+.empty{color:var(--pale);font-weight:500}
+footer{margin-top:36px;color:var(--muted);font-size:13px;line-height:1.5}
+footer a{color:var(--pale)}
+</style></head><body><main>
+<header><img src="r/kylli.png" alt="Kylli, le robot de KylliannIA"><div><h1>Kylliann<span>IA</span> · ressources</h1><p class="sub">Outils et prompts IA gratuits pour ton business</p></div></header>
+<label for="q">Tape le mot-clé vu dans la vidéo</label>
+<input id="q" type="search" placeholder="Ex. MAIL" autocomplete="off" autocapitalize="characters">
+<p class="hint">Toutes les ressources sont gratuites.</p>
+<div id="list"></div>
+<footer>KylliannIA · TikTok @kylliannia.ia<br>Contenu créé avec l'aide de l'IA, relu par un humain.</footer>
+</main>
+<script>
+// Ajouter une ressource = ajouter une ligne ici (mots-clés en majuscules).
+const RESSOURCES = [
+ {mots:["MAIL","PROMPT","PROMPTS","PACK","BUSINESS"], titre:"Pack de 20 prompts business", texte:"Mails, clients, organisation, contenu, décisions : 20 prompts à copier-coller dans ChatGPT, Claude ou Gemini.", lien:"r/pack-20-prompts-business.pdf", bouton:"Ouvrir le PDF"}
+];
+const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toUpperCase().trim();
+const list=document.getElementById("list"), q=document.getElementById("q");
+function render(){
+ const v=norm(q.value);
+ const res = v ? RESSOURCES.filter(r=>r.mots.some(m=>norm(m).startsWith(v)) || norm(r.titre).includes(v)) : RESSOURCES;
+ list.innerHTML = res.length ? res.map(r=>`<div class="card"><span class="kw">${r.mots[0]}</span><h2>${r.titre}</h2><p>${r.texte}</p><a class="btn" href="${r.lien}" target="_blank" rel="noopener">${r.bouton}</a></div>`).join("")
+  : `<p class="empty">Aucune ressource pour « ${q.value.replace(/[<>&]/g,"")} ». Vérifie l'orthographe du mot-clé, ou reviens demain : de nouvelles ressources arrivent chaque jour.</p>`;
+}
+q.addEventListener("input",render);
+const h=decodeURIComponent(location.hash.slice(1)); if(h){q.value=h;}
+render();
+</script></body></html>
