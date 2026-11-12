@@ -186,7 +186,7 @@ footer a{color:#fff;font-weight:700}
 const REGLAGES = {
  // Brevo : Formulaires > ton formulaire > Partager > copie l'adresse "action" du code HTML
  // (elle ressemble à https://xxxx.sibforms.com/serve/MUIFA...). Vide = bloc e-mail masqué.
- brevoForm: "",
+ brevoForm: "https://ff5ec688.sibforms.com/serve/MUIFAAl9enlghEYTzE2aEpuQQXSGIfkeV0oYbDclrM7tPB25LJ355DYSet7TpW-N12iv6se3cvmJGsCiyTVzVt1gEcFhbqP7MIskg8bD4eJFbMeGQ2hzJL42GPelnj_1Nwx2TdkSoeLf9L546_lne2QbkEyspa5pD6FkpcLMTkKxcsR3H3D6B9-4_Hgd_OTlXjQqk7ZB1nbIMItfdw==",
  // GoatCounter : le code choisi à l'inscription (ex. "kylliannia" pour kylliannia.goatcounter.com). Vide = pas de stats.
  goatcounter: "kylliann",
  // Identifiant Instagram sans @ (ex. "kylliannia.ia"). Vide = lien masqué.
@@ -352,7 +352,7 @@ out.addEventListener("submit",e=>{
  const b=f.querySelector("button");b.disabled=true;b.textContent="…";
  fetch(REGLAGES.brevoForm,{method:"POST",body:d,mode:"no-cors"}).then(()=>{
   f.querySelector(".ligne").remove();f.querySelector(".accord").remove();
-  etat.classList.add("ok");etat.textContent="C'est noté ! Regarde ta boîte mail pour confirmer ton adresse.";
+  etat.classList.add("ok");etat.textContent="C'est noté ! Tu recevras la prochaine ressource dès qu'elle sort.";
   humeur("content");bulle.innerHTML="Super, à très vite dans ta boîte mail !";
   stat(`inscription/${f.dataset.mot}`,`Inscription e-mail ${f.dataset.mot}`);
  }).catch(()=>{b.disabled=false;b.textContent="Je veux";etat.classList.add("ko");etat.textContent="L'envoi n'est pas passé. Vérifie ta connexion et réessaie.";});
