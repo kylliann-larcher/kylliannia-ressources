@@ -352,7 +352,7 @@ out.addEventListener("submit",e=>{
  const b=f.querySelector("button");b.disabled=true;b.textContent="…";
  fetch(REGLAGES.brevoForm,{method:"POST",body:d,mode:"no-cors"}).then(()=>{
   f.querySelector(".ligne").remove();f.querySelector(".accord").remove();
-  etat.classList.add("ok");etat.textContent="C'est noté ! Tu recevras la prochaine ressource dès qu'elle sort.";
+  etat.classList.add("ok");etat.textContent="Presque fini ! Clique sur le lien dans le mail qu'on vient de t'envoyer pour confirmer.";
   humeur("content");bulle.innerHTML="Super, à très vite dans ta boîte mail !";
   stat(`inscription/${f.dataset.mot}`,`Inscription e-mail ${f.dataset.mot}`);
  }).catch(()=>{b.disabled=false;b.textContent="Je veux";etat.classList.add("ko");etat.textContent="L'envoi n'est pas passé. Vérifie ta connexion et réessaie.";});
@@ -360,4 +360,9 @@ out.addEventListener("submit",e=>{
 
 const h=decodeURIComponent(location.hash.slice(1)); if(h){q.value=h;}
 render();
+if(new URLSearchParams(location.search).has("confirme")){
+ humeur("content");bulle.innerHTML="C'est confirmé ! Tu recevras chaque nouvelle ressource.";
+ stat("inscription/confirmee","Inscription confirmée");
+ history.replaceState(null,"",location.pathname+location.hash);
+}
 </script></body></html>
