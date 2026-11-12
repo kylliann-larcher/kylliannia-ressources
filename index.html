@@ -37,7 +37,7 @@ main{max-width:560px;margin:0 auto;padding:22px 20px 48px}
  border-radius:22px;padding:14px 20px;max-width:360px;margin:8px 0 14px;min-height:56px}
 .bulle::after{content:"";position:absolute;left:50%;bottom:-11px;margin-left:-11px;border:11px solid transparent;border-bottom:0;border-top-color:#fff}
 .bulle .mot{color:var(--orange)}
-#kylli{width:190px;height:auto;overflow:visible;margin-bottom:14px}
+#kylli{width:200px;height:auto;overflow:visible;margin-bottom:14px}
 
 /* Humeurs (mêmes que la charte vidéo) */
 #kylli .yeux>g,#kylli .bouche>path,#kylli .sourcils{display:none}
@@ -46,15 +46,15 @@ main{max-width:560px;margin:0 auto;padding:22px 20px 48px}
 #kylli.perplexe .y-neutre,#kylli.perplexe .b-perplexe,#kylli.perplexe .sourcils,
 #kylli.surpris .y-surpris,#kylli.surpris .b-surpris{display:inline}
 #kylli .bras{transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
-#kylli .bras-g{transform-origin:62px 222px}#kylli .bras-d{transform-origin:178px 222px}
-#kylli.content .bras-g{transform:rotate(130deg)}
-#kylli.content .bras-d{transform:rotate(-130deg)}
+#kylli .bras-g{transform-origin:244px 890px}#kylli .bras-d{transform-origin:836px 890px}
+#kylli.content .bras-g{transform:rotate(140deg)}
+#kylli.content .bras-d{transform:rotate(-140deg)}
 #kylli .pupilles{transition:transform .2s}
-#kylli.ecoute .pupilles{transform:translateY(5px)}
-#kylli .tete{transform-origin:120px 200px}
+#kylli.ecoute .pupilles{transform:translateY(24px)}
+#kylli .tete{transform-origin:540px 800px}
 #kylli.content .tete{animation:saut .5s cubic-bezier(.3,1.6,.5,1)}
 #kylli.perplexe .tete{transform:rotate(-6deg);transition:transform .3s}
-@keyframes saut{0%{transform:translateY(0)}40%{transform:translateY(-12px)}100%{transform:translateY(0)}}
+@keyframes saut{0%{transform:translateY(0)}40%{transform:translateY(-50px)}100%{transform:translateY(0)}}
 #kylli .y-neutre ellipse{animation:cligne 4.5s infinite;transform-origin:center;transform-box:fill-box}
 @keyframes cligne{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
 #kylli .antenne-boule{animation:bip 2.4s ease-in-out infinite}
@@ -134,35 +134,43 @@ footer a{color:#fff;font-weight:700}
 <section class="scene">
  <p class="bulle" id="bulle" aria-live="polite">T'as vu la vidéo ? Donne-moi le mot-clé.</p>
 
- <svg id="kylli" class="neutre" viewBox="0 0 240 280" role="img" aria-label="Kylli, le robot de KylliannIA">
-  <!-- bras -->
-  <g class="bras bras-g"><rect x="40" y="214" width="26" height="54" rx="13" fill="#1F55C4"/></g>
-  <g class="bras bras-d"><rect x="174" y="214" width="26" height="54" rx="13" fill="#1F55C4"/></g>
-  <!-- corps -->
-  <rect x="58" y="196" width="124" height="80" rx="34" fill="#2F6FED"/>
+ <svg id="kylli" class="neutre" viewBox="0 120 1080 1060" role="img" aria-label="Kylli, le robot de KylliannIA">
+  <!-- bras (derrière le corps) -->
+  <g class="bras bras-g"><rect x="196" y="860" width="96" height="230" rx="48" fill="#1F55C4"/></g>
+  <g class="bras bras-d"><rect x="788" y="860" width="96" height="230" rx="48" fill="#1F55C4"/></g>
+  <!-- cou + corps -->
+  <rect x="470" y="770" width="140" height="90" rx="30" fill="#1F55C4"/>
+  <rect x="270" y="844" width="540" height="320" rx="150" fill="#1F55C4"/>
+  <rect x="270" y="826" width="540" height="320" rx="150" fill="#2F6FED"/>
+  <circle cx="540" cy="955" r="34" fill="#FF8A3D"/>
   <g class="tete">
    <!-- antenne -->
-   <rect x="116" y="14" width="8" height="34" rx="4" fill="#1F55C4"/>
-   <circle class="antenne-boule" cx="120" cy="14" r="11" fill="#FF8A3D"/>
+   <rect x="526" y="196" width="28" height="120" rx="14" fill="#1F55C4"/>
+   <circle class="antenne-boule" cx="540" cy="186" r="50" fill="#FF8A3D"/>
+   <circle cx="522" cy="168" r="14" fill="#fff" opacity=".75"/>
    <!-- oreilles -->
-   <rect x="12" y="92" width="22" height="52" rx="10" fill="#1F55C4"/>
-   <rect x="206" y="92" width="22" height="52" rx="10" fill="#1F55C4"/>
+   <rect x="140" y="470" width="100" height="190" rx="44" fill="#1F55C4"/>
+   <rect x="840" y="470" width="100" height="190" rx="44" fill="#1F55C4"/>
    <!-- tête + écran -->
-   <rect x="26" y="44" width="188" height="150" rx="44" fill="#2F6FED"/>
-   <rect x="44" y="64" width="152" height="108" rx="30" fill="#E8F0FF"/>
-   <g class="sourcils" stroke="#1B2A4A" stroke-width="6" stroke-linecap="round">
-    <line x1="72" y1="88" x2="98" y2="80"/><line x1="146" y1="78" x2="170" y2="90"/>
+   <rect x="200" y="314" width="680" height="500" rx="180" fill="#1F55C4"/>
+   <rect x="200" y="294" width="680" height="490" rx="180" fill="#2F6FED"/>
+   <rect x="268" y="364" width="544" height="350" rx="120" fill="#E8F0FF"/>
+   <path d="M330 430 Q360 392 420 386" fill="none" stroke="#fff" stroke-width="22" stroke-linecap="round"/>
+   <ellipse cx="350" cy="628" rx="40" ry="22" fill="#FF8A3D" opacity=".55"/>
+   <ellipse cx="730" cy="628" rx="40" ry="22" fill="#FF8A3D" opacity=".55"/>
+   <g class="sourcils" stroke="#1B2A4A" stroke-width="30" stroke-linecap="round">
+    <line x1="370" y1="452" x2="470" y2="428"/><line x1="610" y1="420" x2="706" y2="456"/>
    </g>
    <g class="yeux">
-    <g class="y-neutre"><g class="pupilles"><ellipse cx="88" cy="106" rx="9" ry="13" fill="#1B2A4A"/><ellipse cx="152" cy="106" rx="9" ry="13" fill="#1B2A4A"/></g></g>
-    <g class="y-content" fill="none" stroke="#1B2A4A" stroke-width="7" stroke-linecap="round"><path d="M74 110 Q88 92 102 110"/><path d="M138 110 Q152 92 166 110"/></g>
-    <g class="y-surpris"><circle cx="88" cy="104" r="15" fill="#1B2A4A"/><circle cx="152" cy="104" r="15" fill="#1B2A4A"/><circle cx="93" cy="98" r="4" fill="#fff"/><circle cx="157" cy="98" r="4" fill="#fff"/></g>
+    <g class="y-neutre"><g class="pupilles"><ellipse cx="420" cy="540" rx="40" ry="56" fill="#1B2A4A"/><ellipse cx="660" cy="540" rx="40" ry="56" fill="#1B2A4A"/></g></g>
+    <g class="y-content" fill="none" stroke="#1B2A4A" stroke-width="36" stroke-linecap="round"><path d="M362 560 Q420 482 478 560"/><path d="M602 560 Q660 482 718 560"/></g>
+    <g class="y-surpris"><circle cx="420" cy="530" r="64" fill="#1B2A4A"/><circle cx="660" cy="530" r="64" fill="#1B2A4A"/><circle cx="442" cy="506" r="18" fill="#fff"/><circle cx="682" cy="506" r="18" fill="#fff"/></g>
    </g>
-   <g class="bouche" fill="none" stroke="#1B2A4A" stroke-width="7" stroke-linecap="round">
-    <path class="b-neutre" d="M104 142 Q120 150 136 142"/>
-    <path class="b-content" d="M98 136 Q120 160 142 136"/>
-    <path class="b-perplexe" d="M100 146 Q110 138 120 146 T140 146"/>
-    <path class="b-surpris" d="M120 136 a8 9 0 1 0 0.1 0" fill="#1B2A4A"/>
+   <g class="bouche" fill="none" stroke="#1B2A4A" stroke-width="32" stroke-linecap="round">
+    <path class="b-neutre" d="M486 636 Q540 664 594 636"/>
+    <path class="b-content" d="M470 618 Q540 690 610 618"/>
+    <path class="b-perplexe" d="M456 650 Q498 616 540 650 T624 650"/>
+    <path class="b-surpris" d="M540 610 a34 38 0 1 0 0.1 0" fill="#1B2A4A"/>
    </g>
   </g>
  </svg>
