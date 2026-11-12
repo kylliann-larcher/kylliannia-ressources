@@ -1,47 +1,363 @@
 <!DOCTYPE html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>KylliannIA · Ressources gratuites</title>
-<meta name="description" content="Les ressources gratuites des vidéos KylliannIA : tape le mot-clé vu dans la vidéo.">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+<meta name="description" content="T'as vu une vidéo KylliannIA ? Tape le mot-clé et récupère la ressource gratuite.">
+<meta property="og:title" content="KylliannIA · Ressources gratuites">
+<meta property="og:description" content="Tape le mot-clé vu dans la vidéo, Kylli te donne la ressource.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kylliannia.fr/">
+<meta property="og:image" content="https://kylliannia.fr/r/apercu.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0E1A3A">
+<link rel="icon" href="r/kylli.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#0E1A3A;--navy2:#16275A;--blue:#2F6FED;--orange:#FF8A3D;--ink:#1B2A4A;--pale:#E8F0FF;--muted:#8A97B8}
-*{box-sizing:border-box}body{margin:0;font-family:Poppins,system-ui,sans-serif;background:linear-gradient(180deg,var(--navy),var(--navy2));color:#fff;min-height:100vh}
-main{max-width:640px;margin:0 auto;padding:32px 20px 60px}
-header{display:flex;align-items:center;gap:14px;margin-bottom:26px}header img{width:56px;height:56px;border-radius:50%;border:3px solid var(--orange)}
-h1{font-size:26px;margin:0}h1 span{color:var(--orange)}.sub{color:var(--pale);margin:2px 0 0;font-weight:500;font-size:15px}
-label{display:block;font-weight:700;font-size:20px;margin:6px 0 10px}
-input[type=search],input[type=email],input[type=text]{width:100%;font:inherit;font-size:20px;padding:14px 18px;border-radius:14px;border:2px solid var(--blue);background:#fff;color:var(--ink);outline:none}
-input:focus{border-color:var(--orange)}
-.hint{color:var(--muted);font-size:14px;margin:8px 0 22px}
-.card{background:#fff;color:var(--ink);border-radius:18px;padding:18px 20px;margin-bottom:14px}
-.card .kw{display:inline-block;background:var(--orange);color:var(--ink);font-weight:700;font-size:13px;border-radius:20px;padding:3px 12px}
-.card h2{font-size:19px;margin:10px 0 6px}.card p{margin:0 0 12px;font-weight:500;font-size:15px;line-height:1.45}
-.btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:700;border-radius:12px;padding:11px 18px;font-size:16px}
-.empty{color:var(--pale);font-weight:500}
-footer{margin-top:36px;color:var(--muted);font-size:13px;line-height:1.5}
-footer a{color:var(--pale)}
+:root{
+ --nuit:#0E1A3A;--cercle:#16275A;--bleu:#2F6FED;--bleu2:#1F55C4;
+ --orange:#FF8A3D;--encre:#1B2A4A;--ecran:#E8F0FF;--vert:#22B07D;--gris:#9AA8CC;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;font-weight:500;color:#fff;background:var(--nuit);min-height:100vh;overflow-x:hidden}
+/* Les mêmes cercles de fond que dans les vidéos */
+body::before,body::after{content:"";position:fixed;border-radius:50%;background:var(--cercle);z-index:-1}
+body::before{width:520px;height:520px;top:-180px;right:-220px}
+body::after{width:380px;height:380px;bottom:-160px;left:-170px}
+main{max-width:560px;margin:0 auto;padding:22px 20px 48px}
+
+.marque{font-weight:700;font-size:15px;color:var(--ecran);text-decoration:none;display:inline-block;margin-bottom:6px}
+.marque b{color:var(--orange)}
+
+/* Scène : Kylli + sa bulle */
+.scene{display:flex;flex-direction:column;align-items:center;text-align:center}
+.bulle{position:relative;background:#fff;color:var(--encre);font-weight:700;font-size:20px;line-height:1.3;
+ border-radius:22px;padding:14px 20px;max-width:360px;margin:8px 0 14px;min-height:56px}
+.bulle::after{content:"";position:absolute;left:50%;bottom:-11px;margin-left:-11px;border:11px solid transparent;border-bottom:0;border-top-color:#fff}
+.bulle .mot{color:var(--orange)}
+#kylli{width:190px;height:auto;overflow:visible;margin-bottom:14px}
+
+/* Humeurs (mêmes que la charte vidéo) */
+#kylli .yeux>g,#kylli .bouche>path,#kylli .sourcils{display:none}
+#kylli.neutre .y-neutre,#kylli.neutre .b-neutre,
+#kylli.content .y-content,#kylli.content .b-content,
+#kylli.perplexe .y-neutre,#kylli.perplexe .b-perplexe,#kylli.perplexe .sourcils,
+#kylli.surpris .y-surpris,#kylli.surpris .b-surpris{display:inline}
+#kylli .bras{transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+#kylli .bras-g{transform-origin:62px 222px}#kylli .bras-d{transform-origin:178px 222px}
+#kylli.content .bras-g{transform:rotate(130deg)}
+#kylli.content .bras-d{transform:rotate(-130deg)}
+#kylli .pupilles{transition:transform .2s}
+#kylli.ecoute .pupilles{transform:translateY(5px)}
+#kylli .tete{transform-origin:120px 200px}
+#kylli.content .tete{animation:saut .5s cubic-bezier(.3,1.6,.5,1)}
+#kylli.perplexe .tete{transform:rotate(-6deg);transition:transform .3s}
+@keyframes saut{0%{transform:translateY(0)}40%{transform:translateY(-12px)}100%{transform:translateY(0)}}
+#kylli .y-neutre ellipse{animation:cligne 4.5s infinite;transform-origin:center;transform-box:fill-box}
+@keyframes cligne{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+#kylli .antenne-boule{animation:bip 2.4s ease-in-out infinite}
+@keyframes bip{0%,100%{fill:var(--orange)}50%{fill:#FFB27F}}
+
+/* Le champ = l'écran de Kylli */
+.recherche{width:100%;margin-top:4px}
+.recherche label{display:block;font-size:15px;color:var(--ecran);margin-bottom:8px}
+#q{width:100%;font:inherit;font-weight:800;font-size:30px;letter-spacing:.04em;text-transform:uppercase;text-align:center;
+ color:var(--encre);background:var(--ecran);border:4px solid var(--bleu2);border-radius:22px;padding:14px 16px;outline:none;caret-color:var(--orange);
+ -webkit-appearance:none;appearance:none}
+#q::placeholder{color:#A9B7D9;font-weight:700}
+#q:focus{border-color:var(--orange)}
+#q::-webkit-search-cancel-button{display:none}
+
+/* Résultats */
+#resultat{margin-top:22px}
+.ressource{background:#fff;color:var(--encre);border-radius:24px;padding:22px 20px 20px;text-align:left;margin-bottom:16px;
+ animation:arrive .4s cubic-bezier(.3,1.4,.5,1)}
+@keyframes arrive{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.ressource h2{font-size:24px;line-height:1.2;margin:0 0 6px;font-weight:800}
+.ressource .desc{margin:0 0 16px;font-size:16px;line-height:1.5}
+.rubriques{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:0;list-style:none}
+.rubriques li{background:var(--ecran);border-radius:12px;padding:6px 12px;font-size:14px;font-weight:700}
+.rubriques li span{color:var(--bleu);margin-left:4px}
+.extrait{border:2px dashed #C7D3EE;border-radius:16px;padding:14px 16px;margin:0 0 18px}
+.extrait p{margin:0}
+.extrait .titre{font-weight:700;font-size:15px;margin-bottom:6px}
+.extrait .prompt{font-size:15px;line-height:1.5;color:#3A4A6E}
+.copier{margin-top:10px;font:inherit;font-weight:700;font-size:14px;color:var(--bleu);background:none;border:0;padding:4px 0;cursor:pointer}
+.copier.ok{color:var(--vert)}
+.btn{display:block;text-align:center;background:var(--orange);color:var(--encre);text-decoration:none;font-weight:800;font-size:18px;border-radius:16px;padding:16px 18px}
+.btn:hover{background:#FF9C5A}
+.btn:focus-visible,.copier:focus-visible,.dispo button:focus-visible,a:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+
+.dispo{margin-top:6px;text-align:center}
+.dispo p{color:var(--gris);font-size:14px;margin:0 0 10px}
+.dispo ul{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0;padding:0;list-style:none}
+.dispo button{font:inherit;font-weight:800;font-size:16px;letter-spacing:.04em;color:#fff;background:transparent;border:2px solid var(--bleu);
+ border-radius:14px;padding:8px 16px;cursor:pointer}
+.dispo button:hover{background:var(--bleu)}
+
+footer{margin-top:40px;text-align:center;color:var(--gris);font-size:14px;line-height:1.6}
+footer a{color:#fff;font-weight:700}
+
+/* Nouveau */
+.nouveau{background:var(--cercle);border:2px solid var(--bleu);border-radius:20px;padding:16px 18px;margin-bottom:22px;text-align:left;display:flex;align-items:center;gap:14px}
+.nouveau .txt{flex:1}
+.nouveau .quand{display:inline-block;background:var(--orange);color:var(--encre);font-weight:800;font-size:13px;border-radius:10px;padding:2px 10px;margin-bottom:6px}
+.nouveau h3{margin:0;font-size:17px;line-height:1.3}
+.nouveau button{font:inherit;font-weight:800;font-size:15px;color:var(--encre);background:#fff;border:0;border-radius:12px;padding:10px 14px;cursor:pointer;white-space:nowrap}
+/* Suggestion de faute de frappe */
+.suggestion{text-align:center;margin-bottom:22px}
+.suggestion button{font:inherit;font-weight:800;font-size:18px;color:var(--encre);background:var(--orange);border:0;border-radius:14px;padding:12px 22px;cursor:pointer}
+/* E-mail */
+.inscription{position:relative;background:var(--cercle);border-radius:24px;padding:20px;text-align:left;margin-bottom:16px}
+.inscription h3{margin:0 0 4px;font-size:19px;line-height:1.3}
+.inscription p{margin:0 0 14px;color:var(--ecran);font-size:15px;line-height:1.5}
+.inscription .ligne{display:flex;gap:8px}
+.inscription input[type=email]{flex:1;min-width:0;font:inherit;font-size:17px;padding:12px 14px;border-radius:14px;border:3px solid var(--bleu2);background:var(--ecran);color:var(--encre);outline:none}
+.inscription input[type=email]:focus{border-color:var(--orange)}
+.inscription button{font:inherit;font-weight:800;font-size:16px;color:var(--encre);background:var(--orange);border:0;border-radius:14px;padding:0 16px;cursor:pointer}
+.inscription .accord{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:13px;line-height:1.45;color:var(--gris)}
+.inscription .accord input{margin-top:3px;accent-color:var(--orange);width:18px;height:18px;flex:none}
+.inscription .piege{position:absolute;left:-5000px}
+.inscription .etat{margin:12px 0 0;font-weight:700;font-size:15px}
+.inscription .etat:empty{display:none}
+.inscription .etat.ok{color:var(--vert)}.inscription .etat.ko{color:var(--orange)}
+.inscription button:focus-visible,.nouveau button:focus-visible,.suggestion button:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (min-width:700px){main{padding-top:36px}#kylli{width:220px}.bulle{font-size:22px;max-width:400px}}
 </style></head><body><main>
-<header><img src="r/kylli.png" alt="Kylli, le robot de KylliannIA"><div><h1>Kylliann<span>IA</span> · ressources</h1><p class="sub">Outils et prompts IA gratuits pour ton business</p></div></header>
-<label for="q">Tape le mot-clé vu dans la vidéo</label>
-<input id="q" type="search" placeholder="Ex. MAIL" autocomplete="off" autocapitalize="characters">
-<p class="hint">Toutes les ressources sont gratuites.</p>
-<div id="list"></div>
-<footer>KylliannIA · TikTok @kylliannia.ia<br>Contenu créé avec l'aide de l'IA, relu par un humain.</footer>
+
+<a class="marque" href="./">Kylliann<b>IA</b></a>
+
+<section class="scene">
+ <p class="bulle" id="bulle" aria-live="polite">T'as vu la vidéo ? Donne-moi le mot-clé.</p>
+
+ <svg id="kylli" class="neutre" viewBox="0 0 240 280" role="img" aria-label="Kylli, le robot de KylliannIA">
+  <!-- bras -->
+  <g class="bras bras-g"><rect x="40" y="214" width="26" height="54" rx="13" fill="#1F55C4"/></g>
+  <g class="bras bras-d"><rect x="174" y="214" width="26" height="54" rx="13" fill="#1F55C4"/></g>
+  <!-- corps -->
+  <rect x="58" y="196" width="124" height="80" rx="34" fill="#2F6FED"/>
+  <g class="tete">
+   <!-- antenne -->
+   <rect x="116" y="14" width="8" height="34" rx="4" fill="#1F55C4"/>
+   <circle class="antenne-boule" cx="120" cy="14" r="11" fill="#FF8A3D"/>
+   <!-- oreilles -->
+   <rect x="12" y="92" width="22" height="52" rx="10" fill="#1F55C4"/>
+   <rect x="206" y="92" width="22" height="52" rx="10" fill="#1F55C4"/>
+   <!-- tête + écran -->
+   <rect x="26" y="44" width="188" height="150" rx="44" fill="#2F6FED"/>
+   <rect x="44" y="64" width="152" height="108" rx="30" fill="#E8F0FF"/>
+   <g class="sourcils" stroke="#1B2A4A" stroke-width="6" stroke-linecap="round">
+    <line x1="72" y1="88" x2="98" y2="80"/><line x1="146" y1="78" x2="170" y2="90"/>
+   </g>
+   <g class="yeux">
+    <g class="y-neutre"><g class="pupilles"><ellipse cx="88" cy="106" rx="9" ry="13" fill="#1B2A4A"/><ellipse cx="152" cy="106" rx="9" ry="13" fill="#1B2A4A"/></g></g>
+    <g class="y-content" fill="none" stroke="#1B2A4A" stroke-width="7" stroke-linecap="round"><path d="M74 110 Q88 92 102 110"/><path d="M138 110 Q152 92 166 110"/></g>
+    <g class="y-surpris"><circle cx="88" cy="104" r="15" fill="#1B2A4A"/><circle cx="152" cy="104" r="15" fill="#1B2A4A"/><circle cx="93" cy="98" r="4" fill="#fff"/><circle cx="157" cy="98" r="4" fill="#fff"/></g>
+   </g>
+   <g class="bouche" fill="none" stroke="#1B2A4A" stroke-width="7" stroke-linecap="round">
+    <path class="b-neutre" d="M104 142 Q120 150 136 142"/>
+    <path class="b-content" d="M98 136 Q120 160 142 136"/>
+    <path class="b-perplexe" d="M100 146 Q110 138 120 146 T140 146"/>
+    <path class="b-surpris" d="M120 136 a8 9 0 1 0 0.1 0" fill="#1B2A4A"/>
+   </g>
+  </g>
+ </svg>
+
+ <div class="recherche">
+  <label for="q">Le mot-clé de la vidéo</label>
+  <input id="q" type="search" placeholder="MAIL" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="search">
+ </div>
+</section>
+
+<div id="resultat"></div>
+
+<footer>
+ Une nouvelle ressource arrive avec chaque vidéo.<br>
+ Suis Kylli sur <a href="https://www.tiktok.com/@kylliannia.ia" target="_blank" rel="noopener">TikTok</a><span id="insta" hidden> et <a href="#" target="_blank" rel="noopener">Instagram</a></span> pour ne pas les rater.
+</footer>
 </main>
+
 <script>
-// Ajouter une ressource = ajouter une ligne ici (mots-clés en majuscules).
+/* ============ RÉGLAGES (à remplir une fois) ============ */
+const REGLAGES = {
+ // Brevo : Formulaires > ton formulaire > Partager > copie l'adresse "action" du code HTML
+ // (elle ressemble à https://xxxx.sibforms.com/serve/MUIFA...). Vide = bloc e-mail masqué.
+ brevoForm: "",
+ // GoatCounter : le code choisi à l'inscription (ex. "kylliannia" pour kylliannia.goatcounter.com). Vide = pas de stats.
+ goatcounter: "",
+ // Identifiant Instagram sans @ (ex. "kylliannia.ia"). Vide = lien masqué.
+ instagram: ""
+};
+
+/* ============ RESSOURCES ============
+ Ajouter une ressource = ajouter un bloc. La plus récente en premier.
+ date au format AAAA-MM-JJ (sert au bloc "Nouveau"). */
 const RESSOURCES = [
- {mots:["MAIL","PROMPT","PROMPTS","PACK","BUSINESS"], titre:"Pack de 20 prompts business", texte:"Mails, clients, organisation, contenu, décisions : 20 prompts à copier-coller dans ChatGPT, Claude ou Gemini.", lien:"r/pack-20-prompts-business.pdf", bouton:"Ouvrir le PDF"}
+ {
+  mots:["MAIL","MAILS","PROMPT","PROMPTS","PACK","BUSINESS"],
+  date:"2026-11-12",
+  titre:"20 prompts pour ton business",
+  texte:"À copier-coller dans ChatGPT, Claude ou Gemini. Tu remplaces ce qui est entre crochets par ta situation, et c'est parti.",
+  rubriques:[["Mails",5],["Clients et ventes",4],["Organisation",4],["Contenu",4],["Décider",3]],
+  extrait:{titre:"Le n°1, à tester tout de suite : mail confus → mail clair",
+   prompt:"Réécris ce mail de façon claire, polie, en trois phrases maximum. Garde le sens, supprime les détours. Mail : [colle ton brouillon]"},
+  lien:"r/pack-20-prompts-business.pdf",
+  bouton:"Télécharger les 20 prompts (PDF)"
+ }
 ];
-const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toUpperCase().trim();
-const list=document.getElementById("list"), q=document.getElementById("q");
+
+/* ============ OUTILS ============ */
+const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $=id=>document.getElementById(id);
+const q=$("q"), out=$("resultat"), bulle=$("bulle"), kylli=$("kylli");
+
+// Distance entre deux mots (nombre de lettres à changer)
+function distance(a,b){
+ const d=Array.from({length:a.length+1},(_,i)=>[i,...Array(b.length).fill(0)]);
+ for(let j=1;j<=b.length;j++)d[0][j]=j;
+ for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)
+  d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
+ return d[a.length][b.length];
+}
+function devine(v){
+ if(v.length<3)return null;
+ let best=null,bd=99;
+ for(const r of RESSOURCES)for(const m of r.mots){const x=distance(v,norm(m));if(x<bd){bd=x;best=r.mots[0];}}
+ return bd<=(v.length>=6?2:1)?best:null;
+}
+
+/* ============ STATISTIQUES (GoatCounter, sans cookies) ============ */
+if(REGLAGES.goatcounter){
+ const g=document.createElement("script");g.async=true;g.src="https://gc.zgo.at/count.js";
+ g.dataset.goatcounter=`https://${REGLAGES.goatcounter}.goatcounter.com/count`;document.head.appendChild(g);
+}
+function stat(chemin,titre){
+ try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:chemin,title:titre||chemin,event:true});}catch(e){}
+}
+
+/* ============ INSTAGRAM ============ */
+if(REGLAGES.instagram){
+ const s=$("insta");s.hidden=false;s.querySelector("a").href=`https://www.instagram.com/${encodeURIComponent(REGLAGES.instagram)}/`;
+}
+
+/* ============ AFFICHAGE ============ */
+function humeur(h,ecoute){kylli.setAttribute("class",h+(ecoute?" ecoute":""));}
+
+function inscription(mot){
+ if(!REGLAGES.brevoForm)return "";
+ return `<form class="inscription" data-mot="${esc(mot)}" novalidate>
+  <h3>Tu veux la prochaine avant tout le monde ?</h3>
+  <p>Laisse ton mail, Kylli t'envoie chaque nouvelle ressource dès qu'elle sort.</p>
+  <div class="ligne"><input type="email" name="EMAIL" placeholder="ton@mail.fr" autocomplete="email" aria-label="Ton adresse e-mail" required>
+   <button type="submit">Je veux</button></div>
+  <input class="piege" type="text" name="email_address_check" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <label class="accord"><input type="checkbox" name="OPT_IN" value="1" required>
+   <span>J'accepte de recevoir les nouvelles ressources KylliannIA par e-mail. Désinscription en un clic dans chaque mail, adresse jamais revendue.</span></label>
+  <p class="etat" role="status"></p>
+ </form>`;
+}
+
+function carte(r){
+ return `<article class="ressource">
+  <h2>${r.titre}</h2>
+  <p class="desc">${r.texte}</p>
+  <ul class="rubriques">${r.rubriques.map(([n,c])=>`<li>${n}<span>${c}</span></li>`).join("")}</ul>
+  <div class="extrait"><p class="titre">${r.extrait.titre}</p><p class="prompt">${r.extrait.prompt}</p>
+   <button class="copier" type="button" data-mot="${r.mots[0]}">Copier ce prompt</button></div>
+  <a class="btn telecharger" href="${r.lien}" target="_blank" rel="noopener" data-mot="${r.mots[0]}">${r.bouton}</a>
+ </article>${inscription(r.mots[0])}`;
+}
+
+function aujourdhui(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+
+function accueil(){
+ const r=[...RESSOURCES].sort((a,b)=>b.date.localeCompare(a.date))[0];
+ const quand=r.date===aujourdhui()?"Nouveau aujourd'hui":"Dernière ressource";
+ const mots=RESSOURCES.map(x=>x.mots[0]);
+ return `<div class="nouveau"><div class="txt"><span class="quand">${quand}</span><h3>${r.titre}</h3></div>
+   <button type="button" data-voir="${r.mots[0]}">Voir</button></div>
+  <div class="dispo"><p>Tous les mots-clés :</p><ul>${mots.map(m=>`<li><button type="button" data-voir="${m}">${m}</button></li>`).join("")}</ul></div>`;
+}
+function dispo(){
+ return `<div class="dispo"><p>Les mots-clés qui existent :</p><ul>${RESSOURCES.map(r=>`<li><button type="button" data-voir="${r.mots[0]}">${r.mots[0]}</button></li>`).join("")}</ul></div>`;
+}
+
+/* ============ RECHERCHE ============ */
+let dernier="", minuteur=null;
+function noter(v,issue){clearTimeout(minuteur);minuteur=setTimeout(()=>stat(`recherche/${issue}/${v}`,`${issue} : ${v}`),1400);}
+
 function render(){
  const v=norm(q.value);
- const res = v ? RESSOURCES.filter(r=>r.mots.some(m=>norm(m).startsWith(v)) || norm(r.titre).includes(v)) : RESSOURCES;
- list.innerHTML = res.length ? res.map(r=>`<div class="card"><span class="kw">${r.mots[0]}</span><h2>${r.titre}</h2><p>${r.texte}</p><a class="btn" href="${r.lien}" target="_blank" rel="noopener">${r.bouton}</a></div>`).join("")
-  : `<p class="empty">Aucune ressource pour « ${q.value.replace(/[<>&]/g,"")} ». Vérifie l'orthographe du mot-clé, ou reviens demain : de nouvelles ressources arrivent chaque jour.</p>`;
+ if(!v){humeur("neutre");bulle.innerHTML="T'as vu la vidéo ? Donne-moi le mot-clé.";out.innerHTML=accueil();dernier="";clearTimeout(minuteur);return;}
+ const exact=RESSOURCES.filter(r=>r.mots.some(m=>norm(m)===v));
+ const partiel=RESSOURCES.filter(r=>r.mots.some(m=>norm(m).startsWith(v)));
+ if(exact.length){
+  const cle=exact.map(r=>r.lien).join();
+  if(cle!==dernier){
+   humeur("content");bulle.innerHTML="Trouvé ! Tiens, c'est pour toi.";
+   out.innerHTML=exact.map(carte).join("");dernier=cle;
+   if(navigator.vibrate)try{navigator.vibrate(35);}catch(e){}
+  }
+  noter(v,"trouve");
+ }else if(partiel.length){
+  humeur("neutre",true);bulle.innerHTML="Continue, je cherche…";out.innerHTML="";dernier="";clearTimeout(minuteur);
+ }else{
+  dernier="";
+  const g=devine(v);
+  if(g){
+   humeur("surpris");
+   bulle.innerHTML=`Tu voulais dire <span class="mot">${g}</span> ?`;
+   out.innerHTML=`<div class="suggestion"><button type="button" data-voir="${g}">Oui, ${g}</button></div>`;
+   noter(v,"faute");
+  }else{
+   humeur("perplexe");
+   bulle.innerHTML=`Hmm, <span class="mot">${esc(q.value.trim().toUpperCase())}</span>, je connais pas. Vérifie l'orthographe ?`;
+   out.innerHTML=dispo();
+   noter(v,"inconnu");
+  }
+ }
 }
+
 q.addEventListener("input",render);
+q.addEventListener("keydown",e=>{if(e.key==="Enter")q.blur();});
+q.addEventListener("focus",()=>{if(!q.value)humeur("surpris");});
+q.addEventListener("blur",()=>{if(!q.value)humeur("neutre");});
+
+out.addEventListener("click",e=>{
+ const t=e.target.closest("button,a");if(!t)return;
+ if(t.dataset.voir){q.value=t.dataset.voir;render();return;}
+ if(t.classList.contains("telecharger")){stat(`telechargement/${t.dataset.mot}`,`Téléchargement ${t.dataset.mot}`);return;}
+ if(t.classList.contains("copier")){
+  const txt=t.previousElementSibling.textContent;
+  (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{t.textContent="Copié, colle-le dans ton IA";t.classList.add("ok");stat(`copie/${t.dataset.mot}`,`Prompt copié ${t.dataset.mot}`);})
+   .catch(()=>{t.textContent="Sélectionne le texte pour le copier";});
+ }
+});
+
+/* ============ ENVOI E-MAIL (Brevo) ============ */
+out.addEventListener("submit",e=>{
+ const f=e.target.closest(".inscription");if(!f)return;
+ e.preventDefault();
+ const etat=f.querySelector(".etat"), mail=f.EMAIL.value.trim();
+ etat.className="etat";
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)){etat.classList.add("ko");etat.textContent="Hmm, cette adresse a l'air incomplète.";f.EMAIL.focus();return;}
+ if(!f.OPT_IN.checked){etat.classList.add("ko");etat.textContent="Coche la case pour que Kylli ait le droit de t'écrire.";return;}
+ if(f.email_address_check.value)return; // robot
+ const d=new FormData();d.append("EMAIL",mail);d.append("OPT_IN","1");d.append("email_address_check","");d.append("locale","fr");
+ const b=f.querySelector("button");b.disabled=true;b.textContent="…";
+ fetch(REGLAGES.brevoForm,{method:"POST",body:d,mode:"no-cors"}).then(()=>{
+  f.querySelector(".ligne").remove();f.querySelector(".accord").remove();
+  etat.classList.add("ok");etat.textContent="C'est noté ! Regarde ta boîte mail pour confirmer ton adresse.";
+  humeur("content");bulle.innerHTML="Super, à très vite dans ta boîte mail !";
+  stat(`inscription/${f.dataset.mot}`,`Inscription e-mail ${f.dataset.mot}`);
+ }).catch(()=>{b.disabled=false;b.textContent="Je veux";etat.classList.add("ko");etat.textContent="L'envoi n'est pas passé. Vérifie ta connexion et réessaie.";});
+});
+
 const h=decodeURIComponent(location.hash.slice(1)); if(h){q.value=h;}
 render();
 </script></body></html>
